@@ -1,15 +1,29 @@
 import { trpc } from "../utils/trpc";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginInput } from "../validators/auth-validtor";
 
-const Home = () => {
-  const { isLoading, data } = trpc.hello.useQuery({ text: "Master" });
+const Login = () => {
+  const a = trpc.auth.login.useMutation();
 
-  if (isLoading || !data) return <div>Loading</div>;
+  const { handleSubmit, register } = useForm({
+    resolver: zodResolver(loginInput),
+  });
+
+  const onSubmit = (input: any) => {
+    a.mutate(input);
+  };
 
   return (
     <div>
-      <h1>{data.greeting}</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input {...register("username")} />
+        <input {...register("password")} />
+        <button type="submit">Login Now</button>
+      </form>
+      <h1>{a.data?.message}</h1>
     </div>
   );
 };
 
-export default Home;
+export default Login;

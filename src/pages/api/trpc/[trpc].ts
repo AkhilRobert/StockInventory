@@ -3,5 +3,5 @@ import { appRouter } from "../../../server/_app";
 
 export default trpcNext.createNextApiHandler({
   router: appRouter,
-  createContext: () => ({}),
+  createContext: ({ req, res }) => ({ req, res }),
 });
