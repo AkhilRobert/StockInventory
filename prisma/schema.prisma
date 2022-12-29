@@ -6,3 +6,17 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  HOD
+  SUPERINTENDENT
+  STAFF
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  role      Role
+  username  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
