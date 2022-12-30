@@ -1,5 +1,5 @@
 import { loginInput } from "../../validators/auth-validtor";
-import { publicProcedure, router } from "../trpc";
+import { privateProcedure, publicProcedure, router } from "../trpc";
 import bcrypt from "bcrypt";
 import { prisma } from "../../utils/prisma";
 import { TRPCError } from "@trpc/server";
@@ -31,5 +31,9 @@ export const authRouter = router({
     return {
       message: "logged in",
     };
+  }),
+
+  me: privateProcedure.query(({ ctx }) => {
+    return { message: `Welcome ${ctx.user.id} ${ctx.user.role}` };
   }),
 });
