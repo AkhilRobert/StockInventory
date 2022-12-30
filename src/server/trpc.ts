@@ -13,4 +13,4 @@ export type TContext = inferAsyncReturnType<typeof createContext>;
 const t = initTRPC.context<TContext>().create();
 
 export const router = t.router;
-export const procedure = t.procedure;
+export const publicProcedure = t.procedure;

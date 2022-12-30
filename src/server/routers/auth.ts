@@ -1,13 +1,12 @@
 import { loginInput } from "../../validators/auth-validtor";
-import { procedure, router } from "../trpc";
+import { publicProcedure, router } from "../trpc";
 import bcrypt from "bcrypt";
 import { prisma } from "../../utils/prisma";
 import { TRPCError } from "@trpc/server";
 import { sign } from "../../utils/jwt";
-import { randomInt } from "crypto";
 
 export const authRouter = router({
-  login: procedure.input(loginInput).mutation(async ({ input, ctx }) => {
+  login: publicProcedure.input(loginInput).mutation(async ({ input, ctx }) => {
     const user = await prisma.user.findFirst({
       where: { username: input.username },
     });
@@ -22,12 +21,15 @@ export const authRouter = router({
         code: "UNAUTHORIZED",
       });
 
-    const token = sign({ id: user.id });
+    const token = sign({ id: user.id, role: user.role });
 
-    ctx.res.setHeader("Set-Cookie", `token=${token};HttpOnly`);
+    // TODO: Check why session cookies are not working
+    // Make the cookies secure on production
+    // currently, Expiry time set as 8hrs
+    ctx.res.setHeader("Set-Cookie", `sid=${token};HttpOnly;Max-Age=28800`);
 
     return {
-      message: token,
+      message: "logged in",
     };
   }),
 });
