@@ -37,7 +37,18 @@ const ListPurchase = () => {
             <span style={{ fontWeight: "bold" }}>totalCost:</span> {v.totalCost}
           </p>
           <p>
+            <span style={{ fontWeight: "bold" }}>tax:</span> {v.totalCost}
+          </p>
+          <p>
+            <span style={{ fontWeight: "bold" }}>tax Percentage:</span>{" "}
+            {v.totalCost}
+          </p>
+          <p>
             <span style={{ fontWeight: "bold" }}>supplier:</span> {v.supplier}
+          </p>
+          <p>
+            <span style={{ fontWeight: "bold" }}>Invoice number:</span>{" "}
+            {v.supplier}
           </p>
           <p>
             <span style={{ fontWeight: "bold" }}>warrantyPeriod:</span>{" "}

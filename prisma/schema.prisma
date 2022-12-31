@@ -35,8 +35,10 @@ model Purchase {
   rate                     Int
   totalCost                Int
   supplier                 String
+  invoiceNumber            Int
   warrantyPeriod           String
   taxType                  TaxType
+  taxPercentage            Int
   hodAuthorized            Boolean  @default(false)
   superintendentAuthorized Boolean  @default(false)
   issues                   Issue[]
