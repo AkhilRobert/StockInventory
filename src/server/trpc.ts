@@ -1,7 +1,6 @@
-import { inferAsyncReturnType, initTRPC, TRPCError } from "@trpc/server";
+import { inferAsyncReturnType, initTRPC } from "@trpc/server";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { validJWT } from "../utils/jwt";
-import { Role, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const createContext = async (
