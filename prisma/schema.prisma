@@ -13,6 +13,11 @@ enum Role {
   STAFF
 }
 
+enum TaxType {
+  VAT
+  GST
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   role      Role
@@ -31,6 +36,7 @@ model Purchase {
   totalCost                Int
   supplier                 String
   warrantyPeriod           String
+  taxType                  TaxType
   hodAuthorized            Boolean  @default(false)
   superintendentAuthorized Boolean  @default(false)
   issues                   Issue[]
