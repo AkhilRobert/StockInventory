@@ -1,9 +1,10 @@
 import { loginInput } from "../../validators/auth-validtor";
-import { privateProcedure, publicProcedure, router } from "../trpc";
+import { publicProcedure, router } from "../trpc";
 import bcrypt from "bcrypt";
 import { prisma } from "../../utils/prisma";
 import { TRPCError } from "@trpc/server";
 import { sign } from "../../utils/jwt";
+import { staffProcedure } from "../procedures/staff-procedure";
 
 export const authRouter = router({
   login: publicProcedure.input(loginInput).mutation(async ({ input, ctx }) => {
@@ -33,7 +34,7 @@ export const authRouter = router({
     };
   }),
 
-  me: privateProcedure.query(({ ctx }) => {
+  me: staffProcedure.query(({ ctx }) => {
     return { message: `Welcome ${ctx.user.id} ${ctx.user.role}` };
   }),
 });
