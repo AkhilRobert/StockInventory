@@ -1,5 +1,6 @@
 import { httpBatchLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
+import SuperJSON from "superjson";
 import type { AppRouter } from "../server/_app";
 
 const getBaseUrl = () => {
@@ -25,6 +26,7 @@ export const trpc = createTRPCNext<AppRouter>({
           url: `${getBaseUrl()}/api/trpc`,
         }),
       ],
+      transformer: SuperJSON,
       /**
        * @link https://tanstack.com/query/v4/docs/reference/QueryClient
        **/

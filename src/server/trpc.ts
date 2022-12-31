@@ -2,6 +2,7 @@ import { inferAsyncReturnType, initTRPC } from "@trpc/server";
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
+import superJSON from "superjson";
 
 const createContext = async (
   opts: CreateNextContextOptions
@@ -19,7 +20,9 @@ const createContext = async (
 
 export type TContext = inferAsyncReturnType<typeof createContext>;
 
-export const t = initTRPC.context<TContext>().create();
+export const t = initTRPC.context<TContext>().create({
+  transformer: superJSON,
+});
 
 export const router = t.router;
 
