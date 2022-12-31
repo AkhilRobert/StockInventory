@@ -4,7 +4,7 @@ import { User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import superJSON from "superjson";
 
-const createContext = async (
+export const createContext = async (
   opts: CreateNextContextOptions
 ): Promise<{
   req: NextApiRequest;
