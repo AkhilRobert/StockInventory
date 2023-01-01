@@ -1,9 +1,9 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
 
-const HistoryID = () => {
+const HistoryList = () => {
   const router = useRouter();
-  console.log(router.query.id);
   const { isLoading, data } = trpc.history.list.useQuery(
     {
       id: parseInt(router.query.id as string, 10),
@@ -23,12 +23,14 @@ const HistoryID = () => {
   if (!data || data.length === 0)
     return (
       <div>
+        <Link href={`${router.query.id}/create`}>Add history</Link>
         <h1>No data found</h1>
       </div>
     );
 
   return (
     <div>
+      <Link href={`${router.query.id}/create`}>Add history</Link>
       {data.map((v) => (
         <div key={v.id}>
           <div>
@@ -42,4 +44,4 @@ const HistoryID = () => {
   );
 };
 
-export default HistoryID;
+export default HistoryList;
