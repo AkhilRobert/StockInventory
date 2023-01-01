@@ -2,23 +2,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { trpc } from "../../utils/trpc";
 import { purchaseCreateValidator } from "../../validators/purchase-validator";
+import { z } from "zod";
+
+// formulat from https://vatcalconline.com/
+// Both GST and VAT have the same formula
+const calculateTax = (amount: number, percentage: number): number => {
+  return amount + amount * (percentage / 100);
+};
 
 const CreatePurchase = () => {
   const createMutation = trpc.purchase.create.useMutation();
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm({
+  const { handleSubmit, register, getValues, setValue } = useForm<
+    z.infer<typeof purchaseCreateValidator>
+  >({
     resolver: zodResolver(purchaseCreateValidator),
   });
 
   const onSubmit = (input: any) => {
     createMutation.mutate(input);
   };
-
-  console.log(errors);
 
   return (
     <div>
@@ -52,23 +55,38 @@ const CreatePurchase = () => {
           <input {...register("rate", { valueAsNumber: true })} type="number" />
         </p>
         <p>
-          totalcost:{" "}
+          taxType:
+          <select {...register("taxType")}>
+            <option value="VAT">VAT</option>
+            <option value="GST">GST</option>
+          </select>
+        </p>
+        <p>
+          taxPercentage:
           <input
-            {...register("totalCost", { valueAsNumber: true })}
+            {...register("taxPercentage", {
+              valueAsNumber: true,
+              onChange: () => {
+                const [rate, numbersReceived, taxPercentage] = getValues([
+                  "rate",
+                  "numbersReceived",
+                  "taxPercentage",
+                ]);
+
+                const totalCost = calculateTax(
+                  rate * numbersReceived,
+                  taxPercentage
+                );
+                setValue("totalCost", totalCost, { shouldValidate: true });
+              },
+            })}
             type="number"
           />
         </p>
         <p>
-          taxType:
-          <select {...register("taxType")}>
-            <option value="VAT">VAT</option>
-            <option value="GST">gst</option>
-          </select>
-        </p>
-        <p>
-          taxPercentage:{" "}
+          totalcost:{" "}
           <input
-            {...register("taxPercentage", { valueAsNumber: true })}
+            {...register("totalCost", { valueAsNumber: true })}
             type="number"
           />
         </p>
