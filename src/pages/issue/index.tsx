@@ -18,6 +18,8 @@ const ListIssue = () => {
           <h1>{v.uniqueId}</h1>
           <p>purchase id: {v.purchaseId}</p>
           <p>purchase description: {v.Purchase.description ?? ""}</p>
+          <Link href={`history/${v.id}`}>Add Transfer</Link>
+          <hr />
         </div>
       ))}
     </div>
