@@ -15,6 +15,7 @@ const getBaseUrl = () => {
   return `http://localhost:${process.env.PORT ?? 3000}`;
 };
 
+// TODO: Remove networkMode in prod
 export const trpc = createTRPCNext<AppRouter>({
   config() {
     return {
@@ -42,6 +43,10 @@ export const trpc = createTRPCNext<AppRouter>({
 
               return count < 2;
             },
+            networkMode: "always",
+          },
+          mutations: {
+            networkMode: "always",
           },
         },
       },

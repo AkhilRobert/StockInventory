@@ -52,7 +52,8 @@ const ListPurchase = () => {
               {v.totalCost}
             </p>
             <p>
-              <span style={{ fontWeight: "bold" }}>tax:</span> {v.totalCost}
+              <span style={{ fontWeight: "bold" }}>totalCost:</span>{" "}
+              {v.totalCost}
             </p>
             <p>
               <span style={{ fontWeight: "bold" }}>tax Percentage:</span>{" "}

@@ -34,7 +34,8 @@ model Purchase {
   numbersReceived          Int
   rate                     Int
   totalCost                Int
-  supplier                 String
+  supplierName             String
+  supplierAddress          String
   invoiceNumber            Int
   warrantyPeriod           String
   taxType                  TaxType

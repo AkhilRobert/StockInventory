@@ -24,9 +24,12 @@ CREATE TABLE "Purchase" (
     "numbersReceived" INTEGER NOT NULL,
     "rate" INTEGER NOT NULL,
     "totalCost" INTEGER NOT NULL,
-    "supplier" TEXT NOT NULL,
+    "supplierName" TEXT NOT NULL,
+    "supplierAddress" TEXT NOT NULL,
+    "invoiceNumber" INTEGER NOT NULL,
     "warrantyPeriod" TEXT NOT NULL,
     "taxType" "TaxType" NOT NULL,
+    "taxPercentage" INTEGER NOT NULL,
     "hodAuthorized" BOOLEAN NOT NULL DEFAULT false,
     "superintendentAuthorized" BOOLEAN NOT NULL DEFAULT false,
 
