@@ -10,6 +10,12 @@ const ListPurchase = () => {
       },
     });
 
+  const hodAuthorizeMutation = trpc.purchase.HODAuthorize.useMutation({
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
   if (isLoading || !data)
     return (
       <div>
@@ -83,6 +89,17 @@ const ListPurchase = () => {
               }
             >
               Superintendent Authorize
+            </button>
+
+            <button
+              disabled={v.hodAuthorized}
+              onClick={() =>
+                hodAuthorizeMutation.mutate({
+                  id: v.id,
+                })
+              }
+            >
+              HOD Authorize
             </button>
           </div>
           <hr />

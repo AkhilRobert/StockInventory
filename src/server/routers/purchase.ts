@@ -2,6 +2,7 @@ import type { Issue, Purchase } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "../../utils/prisma";
 import { purchaseCreateValidator } from "../../validators/purchase-validator";
+import { hodProcedure } from "../procedures/hod-procedure";
 import { staffProcedure } from "../procedures/staff-procedure";
 import { superintendentProcedure } from "../procedures/superintendent-procedure";
 import { router } from "../trpc";
@@ -52,6 +53,27 @@ export const purchaseRouter = router({
         },
         data: {
           superintendentAuthorized: true,
+        },
+      });
+
+      return {
+        message: "success",
+      };
+    }),
+
+  HODAuthorize: hodProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      await prisma.purchase.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          hodAuthorized: true,
         },
       });
 
