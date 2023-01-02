@@ -5,6 +5,7 @@ import { loginInput } from "../validators/auth-validtor";
 
 const Login = () => {
   const a = trpc.auth.login.useMutation();
+  const logoutMutation = trpc.auth.logout.useMutation();
 
   const { handleSubmit, register } = useForm({
     resolver: zodResolver(loginInput),
@@ -21,6 +22,13 @@ const Login = () => {
         <input {...register("password")} />
         <button type="submit">Login Now</button>
       </form>
+      <button
+        onClick={() => {
+          logoutMutation.mutate();
+        }}
+      >
+        Logout
+      </button>
       <h1>{a.data?.message}</h1>
     </div>
   );

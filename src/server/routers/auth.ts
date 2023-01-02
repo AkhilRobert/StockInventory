@@ -37,4 +37,11 @@ export const authRouter = router({
   me: staffProcedure.query(({ ctx }) => {
     return { message: `Welcome ${ctx.user.id} ${ctx.user.role}` };
   }),
+
+  logout: publicProcedure.mutation(({ ctx }) => {
+    ctx.res.setHeader("Set-Cookie", `sid=null;expires=${new Date(1)}`);
+    return {
+      message: "success",
+    };
+  }),
 });
