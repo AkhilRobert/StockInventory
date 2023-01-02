@@ -1,7 +1,9 @@
 import type { Issue, Purchase } from "@prisma/client";
+import { z } from "zod";
 import { prisma } from "../../utils/prisma";
 import { purchaseCreateValidator } from "../../validators/purchase-validator";
 import { staffProcedure } from "../procedures/staff-procedure";
+import { superintendentProcedure } from "../procedures/superintendent-procedure";
 import { router } from "../trpc";
 
 const createUniqueId = (purchase: Purchase, iteration: number): string => {
@@ -31,6 +33,27 @@ export const purchaseRouter = router({
         });
 
       await prisma.issue.createMany({ data: issues });
+
+      return {
+        message: "success",
+      };
+    }),
+
+  superintendentAuthorize: superintendentProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      await prisma.purchase.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          superintendentAuthorized: true,
+        },
+      });
 
       return {
         message: "success",

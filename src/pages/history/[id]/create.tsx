@@ -32,7 +32,7 @@ const CreatePurchase = () => {
         </p>
         <input
           type="hidden"
-          value={router.query ? parseInt((router.query as any).id, 10) : 0}
+          value={router.query.id ? parseInt((router.query as any).id, 10) : 0}
           {...register("issueId", { valueAsNumber: true })}
         />
         <button type="submit">Add</button>

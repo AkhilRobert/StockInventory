@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 async function main() {
-  Promise.all([
+  await Promise.all([
     prisma.user.upsert({
       where: {
         id: 1,

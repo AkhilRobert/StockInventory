@@ -1,7 +1,14 @@
 import { trpc } from "../../utils/trpc";
 
 const ListPurchase = () => {
-  const { isLoading, data } = trpc.purchase.list.useQuery();
+  const { isLoading, data, refetch } = trpc.purchase.list.useQuery();
+
+  const superintendentAuthorizeMutation =
+    trpc.purchase.superintendentAuthorize.useMutation({
+      onSuccess: () => {
+        refetch();
+      },
+    });
 
   if (isLoading || !data)
     return (
@@ -13,8 +20,8 @@ const ListPurchase = () => {
   return (
     <div>
       {data.map((v) => (
-        <>
-          <div key={v.id}>
+        <div key={v.id}>
+          <div>
             <p>
               <span style={{ fontWeight: "bold" }}>id: </span>
               {v.id}
@@ -66,9 +73,20 @@ const ListPurchase = () => {
               </span>{" "}
               {String(v.superintendentAuthorized)}
             </p>
+
+            <button
+              disabled={v.superintendentAuthorized}
+              onClick={() =>
+                superintendentAuthorizeMutation.mutate({
+                  id: v.id,
+                })
+              }
+            >
+              Superintendent Authorize
+            </button>
           </div>
           <hr />
-        </>
+        </div>
       ))}
     </div>
   );
