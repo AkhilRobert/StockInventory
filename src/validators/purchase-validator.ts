@@ -9,7 +9,9 @@ export const purchaseCreateValidator = z.object({
   totalCost: z.number().gt(0),
   taxPercentage: z.number().min(0),
   taxType: z.nativeEnum(TaxType),
-  supplier: z.string().min(1),
-  warrantyPeriod: z.string(),
-  invoiceNumber: z.number(),
+  supplierName: z.string().min(1),
+  supplierAddress: z.string().min(1),
+  warrantyPeriod: z.date(),
+  invoiceNumber: z.string(),
+  fundingAgency: z.string().min(1),
 });

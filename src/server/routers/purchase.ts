@@ -7,9 +7,13 @@ import { staffProcedure } from "../procedures/staff-procedure";
 import { superintendentProcedure } from "../procedures/superintendent-procedure";
 import { router } from "../trpc";
 
-const createUniqueId = (purchase: Purchase, iteration: number): string => {
+const createUniqueId = (
+  purchase: Purchase,
+  iteration: number,
+  fundingAgency: string
+): string => {
   const year = purchase.receiptDate.getFullYear();
-  return `DIST/${purchase.supplier}/${purchase.id}/${iteration}-${purchase.numbersReceived}/${year}`;
+  return `DIST/${fundingAgency}/${purchase.id}/${iteration}-${purchase.numbersReceived}/${year}`;
 };
 
 export const purchaseRouter = router({
@@ -20,8 +24,9 @@ export const purchaseRouter = router({
   create: staffProcedure
     .input(purchaseCreateValidator)
     .mutation(async ({ input }) => {
+      const { fundingAgency, ...others } = input;
       const purchase = await prisma.purchase.create({
-        data: input,
+        data: others,
       });
 
       const issues = new Array(purchase.numbersReceived)
@@ -29,7 +34,7 @@ export const purchaseRouter = router({
         .map((_, i) => {
           return {
             purchaseId: purchase.id,
-            uniqueId: createUniqueId(purchase, i + 1),
+            uniqueId: createUniqueId(purchase, i + 1, fundingAgency),
           } as Issue;
         });
 

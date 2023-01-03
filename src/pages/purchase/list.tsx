@@ -60,15 +60,16 @@ const ListPurchase = () => {
               {v.totalCost}
             </p>
             <p>
-              <span style={{ fontWeight: "bold" }}>supplier:</span> {v.supplier}
+              <span style={{ fontWeight: "bold" }}>supplier:</span>{" "}
+              {v.supplierName}
             </p>
             <p>
               <span style={{ fontWeight: "bold" }}>Invoice number:</span>{" "}
-              {v.supplier}
+              {v.invoiceNumber}
             </p>
             <p>
               <span style={{ fontWeight: "bold" }}>warrantyPeriod:</span>{" "}
-              {v.warrantyPeriod}
+              {String(v.warrantyPeriod)}
             </p>
             <p>
               <span style={{ fontWeight: "bold" }}>hodAuthorized:</span>{" "}

@@ -13,13 +13,16 @@ const calculateTax = (amount: number, percentage: number): number => {
 const CreatePurchase = () => {
   const createMutation = trpc.purchase.create.useMutation();
 
-  const { handleSubmit, register, getValues, setValue } = useForm<
+  const { handleSubmit, register, getValues, setValue, formState } = useForm<
     z.infer<typeof purchaseCreateValidator>
   >({
     resolver: zodResolver(purchaseCreateValidator),
   });
 
+  console.log(formState.errors);
+
   const onSubmit = (input: any) => {
+    console.log("This is running");
     createMutation.mutate(input);
   };
 
@@ -45,10 +48,7 @@ const CreatePurchase = () => {
         </p>
         <p>
           Invoice number
-          <input
-            {...register("invoiceNumber", { valueAsNumber: true })}
-            type="number"
-          />
+          <input {...register("invoiceNumber")} />
         </p>
         <p>
           rate:{" "}
@@ -88,14 +88,25 @@ const CreatePurchase = () => {
           <input
             {...register("totalCost", { valueAsNumber: true })}
             type="number"
+            step="any"
           />
         </p>
         <p>
-          supplier: <input {...register("supplier")} />
+          funding Agency
+          <input {...register("fundingAgency")} />
         </p>
         <p>
-          warrantyPeriod:{" "}
-          <input {...register("warrantyPeriod")} type="string" />
+          supplier Name: <input {...register("supplierName")} />
+        </p>
+        <p>
+          supplier Address: <input {...register("supplierAddress")} />
+        </p>
+        <p>
+          warrantyPeriod:
+          <input
+            {...register("warrantyPeriod", { valueAsDate: true })}
+            type="date"
+          />
         </p>
         <button type="submit">Create now</button>
       </form>
