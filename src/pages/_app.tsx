@@ -3,6 +3,7 @@ import { trpc } from "../utils/trpc";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { MantineProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
+import "../../public/global.css";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
