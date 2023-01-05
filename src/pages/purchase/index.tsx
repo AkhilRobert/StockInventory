@@ -6,6 +6,7 @@ import { formatCurrency, formatNumber } from "../../utils/formatter";
 import { trpc } from "../../utils/trpc";
 import { SlOptionsVertical } from "react-icons/sl";
 import { RiExternalLinkLine, RiPencilLine } from "react-icons/ri";
+import Link from "next/link";
 
 const Option = ({ id }: { id: number }) => {
   return (
@@ -16,8 +17,20 @@ const Option = ({ id }: { id: number }) => {
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item icon={<RiExternalLinkLine size={16} />}>View</Menu.Item>
-        <Menu.Item icon={<RiPencilLine size={16} />}>Edit</Menu.Item>
+        <Menu.Item
+          href={`/purchase/${id}`}
+          component={Link}
+          icon={<RiExternalLinkLine size={16} />}
+        >
+          View
+        </Menu.Item>
+        <Menu.Item
+          component={Link}
+          href={`/purchase/edit/${id}`}
+          icon={<RiPencilLine size={16} />}
+        >
+          Edit
+        </Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );

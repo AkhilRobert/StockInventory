@@ -86,4 +86,18 @@ export const purchaseRouter = router({
         message: "success",
       };
     }),
+
+  getByID: staffProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .query(({ input }) => {
+      return prisma.purchase.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
 });

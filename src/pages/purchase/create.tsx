@@ -19,8 +19,6 @@ const CreatePurchase = () => {
     resolver: zodResolver(purchaseCreateValidator),
   });
 
-  console.log(formState.errors);
-
   const onSubmit = (input: any) => {
     console.log("This is running");
     createMutation.mutate(input);
