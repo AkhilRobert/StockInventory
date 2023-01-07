@@ -7,17 +7,21 @@ import {
   Accordion,
   Stack,
   Button,
+  Avatar,
+  Flex,
 } from "@mantine/core";
 import { Role } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { trpc } from "../utils/trpc";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const AppContainer = ({ children }: { children: ReactNode }) => {
   const { data } = trpc.auth.me.useQuery();
   const { mutate, isLoading } = trpc.auth.logout.useMutation();
   const router = useRouter();
+  const client = useQueryClient();
 
   return (
     <AppShell
@@ -52,7 +56,11 @@ export const AppContainer = ({ children }: { children: ReactNode }) => {
           <Navbar.Section>
             <Button
               onClick={() => {
-                mutate();
+                mutate(undefined, {
+                  onSuccess: () => {
+                    client.clear();
+                  },
+                });
                 router.replace("/");
               }}
               miw="100%"
@@ -68,11 +76,12 @@ export const AppContainer = ({ children }: { children: ReactNode }) => {
       }
       header={
         <Header height={70} p="md">
-          <div
-            style={{ display: "flex", alignItems: "center", height: "100%" }}
-          >
-            <Text>Application header</Text>
-          </div>
+          <Flex justify="flex-end">
+            <Flex align="center" gap="xs">
+              <Avatar color="blue" radius="xl" />
+              <Text>{data?.username}</Text>
+            </Flex>
+          </Flex>
         </Header>
       }
     >

@@ -22,7 +22,11 @@ export const authRouter = router({
         code: "UNAUTHORIZED",
       });
 
-    const token = sign({ id: user.id, role: user.role });
+    const token = sign({
+      id: user.id,
+      role: user.role,
+      username: user.username,
+    });
 
     // TODO: Check why session cookies are not working
     // Make the cookies secure on production

@@ -16,7 +16,7 @@ const isAuthenticated = t.middleware(({ next, ctx }) => {
       code: "UNAUTHORIZED",
     });
 
-  const user: Pick<User, "id" | "role"> = decodeJWT(token);
+  const user: Pick<User, "id" | "role" | "username"> = decodeJWT(token);
 
   if (user.role !== Role.HOD)
     throw new TRPCError({

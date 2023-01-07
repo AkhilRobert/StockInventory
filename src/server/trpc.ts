@@ -9,7 +9,7 @@ export const createContext = async (
 ): Promise<{
   req: NextApiRequest;
   res: NextApiResponse;
-  user: Pick<User, "id" | "role"> | undefined;
+  user: Pick<User, "id" | "role" | "username"> | undefined;
 }> => {
   return {
     req: opts.req,
