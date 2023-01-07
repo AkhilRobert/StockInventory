@@ -1,5 +1,7 @@
 import { trpc } from "../../utils/trpc";
-import Link from "next/link";
+import { IssuesTable } from "../../components/issues/table";
+import { AuthenticatedView } from "../../components/authenticatedv-view";
+import { AppContainer } from "../../components/app-container";
 
 const ListIssue = () => {
   const { isLoading, data } = trpc.issue.list.useQuery();
@@ -12,17 +14,11 @@ const ListIssue = () => {
     );
 
   return (
-    <div>
-      {data.map((v) => (
-        <div key={v.id}>
-          <h1>{v.uniqueId}</h1>
-          <p>purchase id: {v.purchaseId}</p>
-          <p>purchase description: {v.Purchase.description ?? ""}</p>
-          <Link href={`history/${v.id}`}>Add Transfer</Link>
-          <hr />
-        </div>
-      ))}
-    </div>
+    <AuthenticatedView>
+      <AppContainer>
+        <IssuesTable issues={data} />
+      </AppContainer>
+    </AuthenticatedView>
   );
 };
 
