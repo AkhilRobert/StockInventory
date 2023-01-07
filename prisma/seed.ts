@@ -5,36 +5,24 @@ const prisma = new PrismaClient();
 
 async function main() {
   await Promise.all([
-    prisma.user.upsert({
-      where: {
-        id: 1,
-      },
-      update: {},
-      create: {
+    prisma.user.create({
+      data: {
         username: "hod",
         role: Role.HOD,
         password: await bcrypt.hash("hod", 12),
       },
     }),
 
-    prisma.user.upsert({
-      where: {
-        id: 2,
-      },
-      update: {},
-      create: {
+    prisma.user.create({
+      data: {
         username: "staff",
         role: Role.STAFF,
         password: await bcrypt.hash("staff", 12),
       },
     }),
 
-    prisma.user.upsert({
-      where: {
-        id: 3,
-      },
-      update: {},
-      create: {
+    prisma.user.create({
+      data: {
         username: "sup",
         role: Role.SUPERINTENDENT,
         password: await bcrypt.hash("sup", 12),

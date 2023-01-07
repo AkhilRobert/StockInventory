@@ -1,40 +1,9 @@
-import { ScrollArea, Table, Menu, ActionIcon } from "@mantine/core";
+import { ScrollArea } from "@mantine/core";
 import { AppContainer } from "../../components/app-container";
 import { AuthenticatedView } from "../../components/authenticatedv-view";
 import { OverlayBlur } from "../../components/overlay-loading";
-import { formatCurrency, formatNumber } from "../../utils/formatter";
 import { trpc } from "../../utils/trpc";
-import { SlOptionsVertical } from "react-icons/sl";
-import { RiExternalLinkLine, RiPencilLine } from "react-icons/ri";
-import Link from "next/link";
-
-const Option = ({ id }: { id: number }) => {
-  return (
-    <Menu width={200}>
-      <Menu.Target>
-        <ActionIcon>
-          <SlOptionsVertical />
-        </ActionIcon>
-      </Menu.Target>
-      <Menu.Dropdown>
-        <Menu.Item
-          href={`/purchase/${id}`}
-          component={Link}
-          icon={<RiExternalLinkLine size={16} />}
-        >
-          View
-        </Menu.Item>
-        <Menu.Item
-          component={Link}
-          href={`/purchase/edit/${id}`}
-          icon={<RiPencilLine size={16} />}
-        >
-          Edit
-        </Menu.Item>
-      </Menu.Dropdown>
-    </Menu>
-  );
-};
+import { PurchaseTable } from "../../components/purchase/table";
 
 const ListPurchase = () => {
   const { isLoading, data } = trpc.purchase.list.useQuery();
@@ -47,38 +16,7 @@ const ListPurchase = () => {
     <AuthenticatedView>
       <AppContainer>
         <ScrollArea>
-          <Table verticalSpacing="md">
-            <thead>
-              <tr>
-                <th>SI No</th>
-                <th>Description</th>
-                <th>count</th>
-                <th>total cost</th>
-                <th>supplier name</th>
-                <th>supplier Address</th>
-                <th>invoice number</th>
-                <th>options</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((v) => {
-                return (
-                  <tr key={v.id}>
-                    <td>{v.id}</td>
-                    <td>{v.description}</td>
-                    <td>{formatNumber(v.numbersReceived)}</td>
-                    <td>{formatCurrency(v.totalCost)}</td>
-                    <td>{v.supplierName}</td>
-                    <td>{v.supplierAddress}</td>
-                    <td>{v.invoiceNumber}</td>
-                    <td>
-                      <Option id={v.id} />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
+          <PurchaseTable nothingMessage="No purchases found" purchase={data} />
         </ScrollArea>
       </AppContainer>
     </AuthenticatedView>

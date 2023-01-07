@@ -31,10 +31,9 @@ export const AppContainer = ({ children }: { children: ReactNode }) => {
                   <Stack ml="md">
                     <Link href="/purchase">List</Link>
                     <Link href="/purchase/create">Create</Link>
-                    {data?.role === Role.HOD ||
-                      (data?.role === Role.SUPERINTENDENT && (
-                        <Link href="/purchase/requests">Requests</Link>
-                      ))}
+                    {data?.role !== Role.STAFF && (
+                      <Link href="/purchase/requests">Requests</Link>
+                    )}
                   </Stack>
                 </Accordion.Panel>
               </Accordion.Item>

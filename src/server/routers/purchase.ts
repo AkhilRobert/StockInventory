@@ -100,4 +100,21 @@ export const purchaseRouter = router({
         },
       });
     }),
+
+  getSuperintendentRequest: superintendentProcedure.query(() => {
+    return prisma.purchase.findMany({
+      where: {
+        superintendentAuthorized: false,
+      },
+    });
+  }),
+
+  getHODRequests: hodProcedure.query(() => {
+    return prisma.purchase.findMany({
+      where: {
+        superintendentAuthorized: true,
+        hodAuthorized: false,
+      },
+    });
+  }),
 });
