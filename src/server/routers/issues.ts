@@ -30,4 +30,21 @@ export const issueRouter = router({
         },
       });
     }),
+
+  getByID: staffProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .query(({ input }) => {
+      return prisma.issue.findUnique({
+        where: {
+          id: input.id,
+        },
+        include: {
+          Purchase: true,
+        },
+      });
+    }),
 });

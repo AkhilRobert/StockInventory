@@ -30,4 +30,18 @@ export const historyRouter = router({
         message: "success",
       };
     }),
+
+  getForIssue: staffProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .query(({ input }) => {
+      return prisma.history.findMany({
+        where: {
+          issueId: input.id,
+        },
+      });
+    }),
 });
