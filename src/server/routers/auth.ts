@@ -35,7 +35,7 @@ export const authRouter = router({
   }),
 
   me: staffProcedure.query(({ ctx }) => {
-    return { message: `Welcome ${ctx.user.id} ${ctx.user.role}` };
+    return { ...ctx.user };
   }),
 
   logout: publicProcedure.mutation(({ ctx }) => {

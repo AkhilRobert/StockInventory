@@ -1,16 +1,74 @@
-import { AppShell, Navbar, Header, Text, Container } from "@mantine/core";
+import {
+  AppShell,
+  Navbar,
+  Header,
+  Text,
+  Container,
+  Accordion,
+  Stack,
+  Button,
+} from "@mantine/core";
+import { Role } from "@prisma/client";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { ReactNode } from "react";
+import { trpc } from "../utils/trpc";
 
 export const AppContainer = ({ children }: { children: ReactNode }) => {
+  const { data } = trpc.auth.me.useQuery();
+  const { mutate, isLoading } = trpc.auth.logout.useMutation();
+  const router = useRouter();
+
   return (
     <AppShell
       navbar={
         <Navbar p="md" hiddenBreakpoint="sm" style={{ width: 300 }}>
-          <Text>Application navbar</Text>
+          <Navbar.Section grow>
+            <Accordion>
+              <Accordion.Item value="purchase">
+                <Accordion.Control>Purchase</Accordion.Control>
+                <Accordion.Panel>
+                  <Stack ml="md">
+                    <Link href="/purchase">List</Link>
+                    <Link href="/purchase/create">Create</Link>
+                    {data?.role === Role.HOD ||
+                      (data?.role === Role.SUPERINTENDENT && (
+                        <Link href="/purchase/requests">Requests</Link>
+                      ))}
+                  </Stack>
+                </Accordion.Panel>
+              </Accordion.Item>
+
+              <Accordion.Item value="issue">
+                <Accordion.Control>Issue</Accordion.Control>
+                <Accordion.Panel>
+                  <Stack ml="md">
+                    <Link href="/issue">List</Link>
+                  </Stack>
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          </Navbar.Section>
+
+          <Navbar.Section>
+            <Button
+              onClick={() => {
+                mutate();
+                router.replace("/");
+              }}
+              miw="100%"
+              size="md"
+              variant="light"
+              color="red"
+              loading={isLoading}
+            >
+              Logout
+            </Button>
+          </Navbar.Section>
         </Navbar>
       }
       header={
-        <Header height={{ base: 50, md: 70 }} p="md">
+        <Header height={70} p="md">
           <div
             style={{ display: "flex", alignItems: "center", height: "100%" }}
           >
