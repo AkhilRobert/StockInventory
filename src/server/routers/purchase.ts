@@ -41,7 +41,7 @@ export const purchaseRouter = router({
       await prisma.issue.createMany({ data: issues });
 
       return {
-        message: "success",
+        id: purchase.id,
       };
     }),
 

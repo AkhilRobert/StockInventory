@@ -3,15 +3,27 @@ import { TaxType } from "@prisma/client";
 
 export const purchaseCreateValidator = z.object({
   receiptDate: z.date(),
-  description: z.string().min(1),
+  description: z.string().min(1, {
+    message: "Description cannot be empty",
+  }),
   numbersReceived: z.number().gt(0),
   rate: z.number().gt(0),
-  totalCost: z.number().gt(0),
-  taxPercentage: z.number().min(0),
+  totalCost: z
+    .number({ invalid_type_error: "Total cost cannot be empty" })
+    .gt(0),
+  taxPercentage: z
+    .number({ invalid_type_error: "Tax percentage cannot be empty" })
+    .gt(0),
   taxType: z.nativeEnum(TaxType),
-  supplierName: z.string().min(1),
-  supplierAddress: z.string().min(1),
+  supplierName: z.string().min(1, {
+    message: "Supplier Name cannot be empty",
+  }),
+  supplierAddress: z.string().min(1, {
+    message: "Supplier Address cannot be empty",
+  }),
   warrantyPeriod: z.date(),
   invoiceNumber: z.string(),
-  fundingAgency: z.string().min(1),
+  fundingAgency: z.string().min(1, {
+    message: "Funding Agency cannot be empty",
+  }),
 });

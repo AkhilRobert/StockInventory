@@ -58,10 +58,10 @@ export const AppContainer = ({ children }: { children: ReactNode }) => {
               onClick={() => {
                 mutate(undefined, {
                   onSuccess: () => {
+                    router.replace("/");
                     client.clear();
                   },
                 });
-                router.replace("/");
               }}
               miw="100%"
               size="md"

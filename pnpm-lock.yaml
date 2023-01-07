@@ -5,6 +5,7 @@ specifiers:
   '@emotion/server': ^11.10.0
   '@hookform/resolvers': ^2.9.10
   '@mantine/core': ^5.9.6
+  '@mantine/dates': ^5.10.0
   '@mantine/hooks': ^5.9.6
   '@mantine/next': ^5.9.6
   '@mantine/notifications': ^5.9.6
@@ -41,6 +42,7 @@ dependencies:
   '@emotion/server': 11.10.0
   '@hookform/resolvers': 2.9.10_react-hook-form@7.41.2
   '@mantine/core': 5.9.6_ly3tyqdhtptismqenscq5gqjb4
+  '@mantine/dates': 5.10.0_m7a3oszxqe5v5hnjg2bblppx5a
   '@mantine/hooks': 5.9.6_react@18.2.0
   '@mantine/next': 5.9.6_d5xj5jipthoiwqd5a5nbaex2p4
   '@mantine/notifications': 5.9.6_lxwcaovbkfhdao2g6lpw6macu4
@@ -597,6 +599,21 @@ packages:
       - '@types/react'
     dev: false
 
+  /@mantine/dates/5.10.0_m7a3oszxqe5v5hnjg2bblppx5a:
+    resolution: {integrity: sha512-gK+BiXaTY9X1ESjRPNI7CASYx/QseDolNUJBqvXw6YB19QQ/PFCnyoj3xGiJUqiYfzKbFDKfTVSkP5cR6SHljA==}
+    peerDependencies:
+      '@mantine/core': 5.10.0
+      '@mantine/hooks': 5.10.0
+      dayjs: '>=1.0.0'
+      react: '>=16.8.0'
+    dependencies:
+      '@mantine/core': 5.9.6_ly3tyqdhtptismqenscq5gqjb4
+      '@mantine/hooks': 5.9.6_react@18.2.0
+      '@mantine/utils': 5.10.0_react@18.2.0
+      dayjs: 1.11.7
+      react: 18.2.0
+    dev: false
+
   /@mantine/hooks/5.9.6_react@18.2.0:
     resolution: {integrity: sha512-60gI0dXjfpx5XJZteIt6rKWtgE3RdpvKY2OmUH4yRe2ZVqFU4quWdt6r720x9dWSJs32xm0AYUxZxjJyCLhnFw==}
     peerDependencies:
@@ -666,6 +683,14 @@ packages:
       csstype: 3.0.9
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@mantine/utils/5.10.0_react@18.2.0:
+    resolution: {integrity: sha512-mHnNm0ajIa8qLAIEwv82N6+7YKecynOA3I8vzgBHXS2x4HwGsHITFYGmMh2LNpx5dRL034tObfEFYZXqncyEDw==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@mantine/utils/5.9.6_react@18.2.0:

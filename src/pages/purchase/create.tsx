@@ -1,8 +1,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { trpc } from "../../utils/trpc";
 import { purchaseCreateValidator } from "../../validators/purchase-validator";
 import { z } from "zod";
+import { AuthenticatedView } from "../../components/authenticatedv-view";
+import { AppContainer } from "../../components/app-container";
+import {
+  Button,
+  NativeSelect,
+  Stack,
+  Textarea,
+  TextInput,
+  Title,
+} from "@mantine/core";
+import { DatePicker } from "@mantine/dates";
+import { showNotification } from "@mantine/notifications";
+import { useRouter } from "next/router";
+import { GoCheck } from "react-icons/go";
 
 // formulat from https://vatcalconline.com/
 // Both GST and VAT have the same formula
@@ -10,106 +24,171 @@ const calculateTax = (amount: number, percentage: number): number => {
   return amount + amount * (percentage / 100);
 };
 
-const CreatePurchase = () => {
-  const createMutation = trpc.purchase.create.useMutation();
+type InputType = z.infer<typeof purchaseCreateValidator>;
 
-  const { handleSubmit, register, getValues, setValue, formState } = useForm<
-    z.infer<typeof purchaseCreateValidator>
-  >({
+const CreatePurchase = () => {
+  const { mutate: createMutation, isLoading } =
+    trpc.purchase.create.useMutation();
+  const router = useRouter();
+
+  const {
+    handleSubmit,
+    register,
+    getValues,
+    setValue,
+    formState: { errors },
+    control,
+  } = useForm<InputType>({
     resolver: zodResolver(purchaseCreateValidator),
   });
 
-  const onSubmit = (input: any) => {
-    console.log("This is running");
-    createMutation.mutate(input);
+  const onSubmit = (input: InputType) => {
+    createMutation(input, {
+      onSuccess: ({ id }) => {
+        showNotification({
+          title: "Success",
+          message: "Purchase created success",
+          icon: <GoCheck />,
+          color: "green",
+        });
+        router.replace(`/purchase/${id}`);
+      },
+    });
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <p>
-          receiptDate:{" "}
-          <input
-            {...register("receiptDate", { valueAsDate: true })}
-            type="date"
-          />
-        </p>
-        <p>
-          description: <textarea {...register("description")} />
-        </p>
-        <p>
-          numbersReceived:{" "}
-          <input
-            {...register("numbersReceived", { valueAsNumber: true })}
-            type="number"
-          />
-        </p>
-        <p>
-          Invoice number
-          <input {...register("invoiceNumber")} />
-        </p>
-        <p>
-          rate:{" "}
-          <input {...register("rate", { valueAsNumber: true })} type="number" />
-        </p>
-        <p>
-          taxType:
-          <select {...register("taxType")}>
-            <option value="VAT">VAT</option>
-            <option value="GST">GST</option>
-          </select>
-        </p>
-        <p>
-          taxPercentage:
-          <input
-            {...register("taxPercentage", {
-              valueAsNumber: true,
-              onChange: () => {
-                const [rate, numbersReceived, taxPercentage] = getValues([
-                  "rate",
-                  "numbersReceived",
-                  "taxPercentage",
-                ]);
+    <AuthenticatedView>
+      <AppContainer>
+        <Title>Create </Title>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack mt="md" spacing="md" maw="65%">
+            <Textarea
+              label="Description"
+              withAsterisk
+              error={errors.description && errors.description.message}
+              autosize
+              {...register("description")}
+            />
 
-                const totalCost = calculateTax(
-                  rate * numbersReceived,
-                  taxPercentage
-                );
-                setValue("totalCost", totalCost, { shouldValidate: true });
-              },
-            })}
-            type="number"
-          />
-        </p>
-        <p>
-          totalcost:{" "}
-          <input
-            {...register("totalCost", { valueAsNumber: true })}
-            type="number"
-            step="any"
-          />
-        </p>
-        <p>
-          funding Agency
-          <input {...register("fundingAgency")} />
-        </p>
-        <p>
-          supplier Name: <input {...register("supplierName")} />
-        </p>
-        <p>
-          supplier Address: <input {...register("supplierAddress")} />
-        </p>
-        <p>
-          warrantyPeriod:
-          <input
-            {...register("warrantyPeriod", { valueAsDate: true })}
-            type="date"
-          />
-        </p>
-        <button type="submit">Create now</button>
-      </form>
-      <h1>{createMutation.data?.message}</h1>
-    </div>
+            <Controller
+              name="receiptDate"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  error={errors.receiptDate && errors.receiptDate.message}
+                  label="Receipt Date"
+                  {...field}
+                  withAsterisk
+                />
+              )}
+            />
+
+            <TextInput
+              type="number"
+              error={errors.numbersReceived && errors.numbersReceived.message}
+              withAsterisk
+              label="Numbers Received"
+              {...register("numbersReceived", {
+                valueAsNumber: true,
+              })}
+            />
+
+            <TextInput
+              error={errors.invoiceNumber && errors.invoiceNumber.message}
+              label="Invoice Number"
+              withAsterisk
+              {...register("invoiceNumber")}
+            />
+
+            <TextInput
+              error={errors.rate && errors.rate.message}
+              label="Rate"
+              withAsterisk
+              type="number"
+              {...register("rate", { valueAsNumber: true })}
+            />
+
+            <NativeSelect
+              data={["VAT", "GST"]}
+              defaultValue="VAT"
+              label="Tax Type"
+              withAsterisk
+              {...register("taxType")}
+            />
+
+            <TextInput
+              type="number"
+              label="Tax Percentage"
+              error={errors.taxPercentage?.message}
+              withAsterisk
+              {...register("taxPercentage", {
+                valueAsNumber: true,
+                onChange: () => {
+                  const [rate, numbersReceived, taxPercentage] = getValues([
+                    "rate",
+                    "numbersReceived",
+                    "taxPercentage",
+                  ]);
+
+                  const totalCost = calculateTax(
+                    rate * numbersReceived,
+                    taxPercentage
+                  );
+                  setValue("totalCost", totalCost, { shouldValidate: true });
+                },
+              })}
+            />
+
+            <TextInput
+              type="number"
+              label="Total Cost"
+              error={errors.totalCost?.message}
+              {...register("totalCost", { valueAsNumber: true })}
+              step="any"
+            />
+
+            <TextInput
+              label="Funding Agency"
+              error={errors.fundingAgency?.message}
+              withAsterisk
+              {...register("fundingAgency")}
+            />
+
+            <TextInput
+              label="Supplier Name"
+              error={errors.supplierName?.message}
+              withAsterisk
+              {...register("supplierName")}
+            />
+
+            <Textarea
+              label="Supplier Address"
+              error={errors.supplierAddress?.message}
+              withAsterisk
+              autosize
+              {...register("supplierAddress")}
+            />
+
+            <Controller
+              name="warrantyPeriod"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  error={errors.warrantyPeriod?.message}
+                  label="Warranty Period"
+                  {...field}
+                  withAsterisk
+                />
+              )}
+            />
+
+            <Button loading={isLoading} type="submit">
+              Create
+            </Button>
+          </Stack>
+        </form>
+      </AppContainer>
+    </AuthenticatedView>
   );
 };
 
