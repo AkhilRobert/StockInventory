@@ -79,6 +79,7 @@ export const purchaseRouter = router({
         },
         data: {
           hodAuthorized: true,
+          superintendentAuthorized: true,
         },
       });
 
