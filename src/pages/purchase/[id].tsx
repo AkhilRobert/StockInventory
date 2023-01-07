@@ -1,4 +1,4 @@
-import { Flex, Stack, Text, Title } from "@mantine/core";
+import { Flex, Loader, Stack, Text, Title } from "@mantine/core";
 import { useRouter } from "next/router";
 import { AppContainer } from "../../components/app-container";
 import { AuthenticatedView } from "../../components/authenticatedv-view";
@@ -122,7 +122,11 @@ const PurchaseID = () => {
         </Stack>
         <Stack mt="md">
           <Title>Issues</Title>
-          {issueData && <IssuesTable issues={issueData} />}
+          {issueLoading ? (
+            <Loader />
+          ) : (
+            issueData && <IssuesTable issues={issueData} />
+          )}
         </Stack>
       </AppContainer>
     </AuthenticatedView>
