@@ -26,7 +26,7 @@ export const issueRouter = router({
     .query(({ input }) => {
       return prisma.issue.findMany({
         where: {
-          id: input.id,
+          purchaseId: input.id,
         },
       });
     }),

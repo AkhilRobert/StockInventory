@@ -7,6 +7,9 @@ import { formatCurrency, formatNumber } from "../../utils/formatter";
 import { trpc } from "../../utils/trpc";
 import { BsCheckCircle } from "react-icons/bs";
 import { MdOutlineError } from "react-icons/md";
+import dayjs from "dayjs";
+import { getRemainingDays } from "../../utils/formatter";
+import { IssuesTable } from "../../components/issues/table";
 
 const PurchaseID = () => {
   const router = useRouter();
@@ -24,7 +27,7 @@ const PurchaseID = () => {
     trpc.issue.getForPurchase.useQuery(
       { id: purchaseID },
       {
-        enabled: isLoading,
+        enabled: !isLoading,
       }
     );
 
@@ -74,8 +77,15 @@ const PurchaseID = () => {
             <Text>{data.invoiceNumber}</Text>
           </Flex>
           <Flex gap="xs">
-            <Text fw={500}>WarrantyPeriod : </Text>
-            <Text>{String(data.warrantyPeriod)}</Text>
+            <Text fw={500}>Warranty Period : </Text>
+            <Flex gap="xs">
+              <Text>
+                {dayjs(data.warrantyPeriod.toDateString()).format("D-M-YYYY")}
+              </Text>
+              <Text>
+                ({getRemainingDays(new Date(Date.now()), data.warrantyPeriod)})
+              </Text>
+            </Flex>
           </Flex>
           <Flex gap="xs">
             <Text fw={500}>HOD Authorized : </Text>
@@ -112,6 +122,7 @@ const PurchaseID = () => {
         </Stack>
         <Stack mt="md">
           <Title>Issues</Title>
+          {issueData && <IssuesTable issues={issueData} />}
         </Stack>
       </AppContainer>
     </AuthenticatedView>
