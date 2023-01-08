@@ -5,7 +5,7 @@ type Props = {
   history: History[];
 };
 
-export const HistoryList = ({ history }: Props) => {
+export const HistoryTable = ({ history }: Props) => {
   if (history.length === 0)
     return (
       <Center>
@@ -14,7 +14,7 @@ export const HistoryList = ({ history }: Props) => {
     );
 
   return (
-    <Table>
+    <Table verticalSpacing="md">
       <thead>
         <tr>
           <th>SI No</th>
