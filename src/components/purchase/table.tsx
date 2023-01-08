@@ -1,13 +1,16 @@
 import { ActionIcon, Center, Menu, Table, Text } from "@mantine/core";
-import type { Purchase } from "@prisma/client";
+import { Purchase, Role } from "@prisma/client";
 import Link from "next/link";
 import { RiExternalLinkLine, RiPencilLine } from "react-icons/ri";
 import { SlOptionsVertical } from "react-icons/sl";
 import { formatCurrency, formatNumber } from "../../utils/formatter";
+import { trpc } from "../../utils/trpc";
 
 const Option = ({ id }: { id: number }) => {
+  const { data } = trpc.auth.me.useQuery();
+
   return (
-    <Menu width={200}>
+    <Menu zIndex={5000} width={200}>
       <Menu.Target>
         <ActionIcon>
           <SlOptionsVertical />
@@ -21,13 +24,15 @@ const Option = ({ id }: { id: number }) => {
         >
           View
         </Menu.Item>
-        <Menu.Item
-          component={Link}
-          href={`/purchase/edit/${id}`}
-          icon={<RiPencilLine size={16} />}
-        >
-          Edit
-        </Menu.Item>
+        {data?.role !== Role.STAFF && (
+          <Menu.Item
+            component={Link}
+            href={`/purchase/edit/${id}`}
+            icon={<RiPencilLine size={16} />}
+          >
+            Edit
+          </Menu.Item>
+        )}
       </Menu.Dropdown>
     </Menu>
   );
@@ -48,7 +53,7 @@ export const PurchaseTable = ({ purchase, nothingMessage }: Props) => {
   }
 
   return (
-    <Table verticalSpacing="md">
+    <Table mt={50} verticalSpacing="md">
       <thead>
         <tr>
           <th>SI No</th>

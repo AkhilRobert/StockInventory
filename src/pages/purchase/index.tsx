@@ -10,7 +10,14 @@ const ListPurchase = () => {
 
   if (isLoading) return <OverlayBlur isLoading />;
 
-  if (!data || data.length === 0) return <div>No data available</div>;
+  if (!data || data.length === 0)
+    return (
+      <AuthenticatedView>
+        <AppContainer>
+          <div>No data available</div>
+        </AppContainer>
+      </AuthenticatedView>
+    );
 
   return (
     <AuthenticatedView>

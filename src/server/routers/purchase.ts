@@ -26,7 +26,10 @@ export const purchaseRouter = router({
     .mutation(async ({ input }) => {
       const { fundingAgency, ...others } = input;
       const purchase = await prisma.purchase.create({
-        data: others,
+        data: {
+          ...others,
+          fundingAgency,
+        },
       });
 
       const issues = new Array(purchase.numbersReceived)

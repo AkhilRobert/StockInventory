@@ -17,12 +17,7 @@ import { DatePicker } from "@mantine/dates";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
 import { GoCheck } from "react-icons/go";
-
-// formulat from https://vatcalconline.com/
-// Both GST and VAT have the same formula
-const calculateTax = (amount: number, percentage: number): number => {
-  return amount + amount * (percentage / 100);
-};
+import { calculateTax } from "../../utils/tax";
 
 type InputType = z.infer<typeof purchaseCreateValidator>;
 

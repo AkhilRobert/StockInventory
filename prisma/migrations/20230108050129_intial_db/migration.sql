@@ -30,6 +30,7 @@ CREATE TABLE "Purchase" (
     "warrantyPeriod" TIMESTAMP(3) NOT NULL,
     "taxType" "TaxType" NOT NULL,
     "taxPercentage" DOUBLE PRECISION NOT NULL,
+    "fundingAgency" TEXT NOT NULL,
     "hodAuthorized" BOOLEAN NOT NULL DEFAULT false,
     "superintendentAuthorized" BOOLEAN NOT NULL DEFAULT false,
 

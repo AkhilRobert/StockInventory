@@ -25,13 +25,6 @@ const Option = ({ id }: { id: number }) => {
         >
           View
         </Menu.Item>
-        <Menu.Item
-          component={Link}
-          href={`/purchase/edit/${id}`}
-          icon={<RiPencilLine size={16} />}
-        >
-          Edit
-        </Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );

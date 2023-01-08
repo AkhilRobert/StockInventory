@@ -17,7 +17,7 @@ export const getRemainingDays = (start: Date, end: Date): string => {
     return (
       remainingYears +
       " " +
-      (remainingYears === 1 ? "year" : "years") +
+      (remainingYears === 1 ? "year " : "years ") +
       "remaining"
     );
 
@@ -26,7 +26,7 @@ export const getRemainingDays = (start: Date, end: Date): string => {
     return (
       remainingMonths +
       " " +
-      (remainingMonths === 1 ? "month" : "months") +
+      (remainingMonths === 1 ? "month " : "months ") +
       "remaining"
     );
 

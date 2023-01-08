@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import { getRemainingDays } from "../../utils/formatter";
 import { IssuesTable } from "../../components/issues/table";
 import { Role } from "@prisma/client";
+import Link from "next/link";
 
 const PurchaseID = () => {
   const router = useRouter();
@@ -138,8 +139,16 @@ const PurchaseID = () => {
             </Flex>
           </Stack>
 
-          <Stack justify="flex-end">
-            {meData?.role !== Role.STAFF && <Button w="300px">Edit</Button>}
+          <Stack align="flex-end" justify="flex-end">
+            {meData?.role !== Role.STAFF && (
+              <Button
+                component={Link}
+                href={`/purchase/edit/${data.id}`}
+                w="300px"
+              >
+                Edit
+              </Button>
+            )}
 
             {meData?.role === Role.SUPERINTENDENT && (
               <Button
