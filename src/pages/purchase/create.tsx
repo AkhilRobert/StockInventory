@@ -7,7 +7,7 @@ import { AuthenticatedView } from "../../components/authenticatedv-view";
 import { AppContainer } from "../../components/app-container";
 import {
   Button,
-  NativeSelect,
+  Select,
   Stack,
   Textarea,
   TextInput,
@@ -103,12 +103,18 @@ const CreatePurchase = () => {
               {...register("rate", { valueAsNumber: true })}
             />
 
-            <NativeSelect
-              data={["VAT", "GST"]}
-              defaultValue="VAT"
-              label="Tax Type"
-              withAsterisk
-              {...register("taxType")}
+            <Controller
+              name="taxType"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  data={["VAT", "GST"]}
+                  defaultValue="VAT"
+                  label="Tax Type"
+                  withAsterisk
+                  {...field}
+                />
+              )}
             />
 
             <TextInput

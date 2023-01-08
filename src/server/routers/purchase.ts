@@ -1,7 +1,10 @@
 import type { Issue, Purchase } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "../../utils/prisma";
-import { purchaseCreateValidator } from "../../validators/purchase-validator";
+import {
+  purchaseCreateValidator,
+  purchaseEditValidator,
+} from "../../validators/purchase-validator";
 import { hodProcedure } from "../procedures/hod-procedure";
 import { staffProcedure } from "../procedures/staff-procedure";
 import { superintendentProcedure } from "../procedures/superintendent-procedure";
@@ -46,6 +49,19 @@ export const purchaseRouter = router({
       return {
         id: purchase.id,
       };
+    }),
+
+  update: superintendentProcedure
+    .input(purchaseEditValidator)
+    .mutation(({ input }) => {
+      return prisma.purchase.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          ...input,
+        },
+      });
     }),
 
   superintendentAuthorize: superintendentProcedure

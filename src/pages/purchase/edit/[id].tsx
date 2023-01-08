@@ -3,7 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import {
   Button,
   Loader,
-  NativeSelect,
+  Select,
   Stack,
   Textarea,
   TextInput,
@@ -17,14 +17,14 @@ import { z } from "zod";
 import { AppContainer } from "../../../components/app-container";
 import { AuthenticatedView } from "../../../components/authenticatedv-view";
 import { trpc } from "../../../utils/trpc";
-import { purchaseCreateValidator } from "../../../validators/purchase-validator";
+import { purchaseEditValidator } from "../../../validators/purchase-validator";
 import { calculateTax } from "../../../utils/tax";
 
-type InputType = z.infer<typeof purchaseCreateValidator>;
+type InputType = z.infer<typeof purchaseEditValidator>;
 
 const EditPurchase = () => {
   const { mutate: createMutation, isLoading } =
-    trpc.purchase.create.useMutation();
+    trpc.purchase.update.useMutation();
   const router = useRouter();
   const purchaseID = parseInt((router.query as any).id, 10);
 
@@ -37,7 +37,7 @@ const EditPurchase = () => {
     control,
     reset,
   } = useForm<InputType>({
-    resolver: zodResolver(purchaseCreateValidator),
+    resolver: zodResolver(purchaseEditValidator),
   });
 
   const { data, isLoading: purchaseQueryLoading } =
@@ -49,7 +49,7 @@ const EditPurchase = () => {
         enabled: !!purchaseID,
         onSuccess: () => {
           if (data) {
-            reset({ ...data });
+            reset({ ...data, id: purchaseID });
           }
         },
       }
@@ -60,7 +60,7 @@ const EditPurchase = () => {
       onSuccess: ({ id }) => {
         showNotification({
           title: "Success",
-          message: "Purchase created success",
+          message: "Purchase details has been edited",
           icon: <GoCheck />,
           color: "green",
         });
@@ -72,7 +72,7 @@ const EditPurchase = () => {
   return (
     <AuthenticatedView>
       <AppContainer>
-        <Title>Create </Title>
+        <Title>Update </Title>
         {purchaseQueryLoading ? (
           <Loader />
         ) : (
@@ -103,6 +103,7 @@ const EditPurchase = () => {
                 type="number"
                 error={errors.numbersReceived && errors.numbersReceived.message}
                 withAsterisk
+                disabled
                 label="Numbers Received"
                 {...register("numbersReceived", {
                   valueAsNumber: true,
@@ -124,12 +125,18 @@ const EditPurchase = () => {
                 {...register("rate", { valueAsNumber: true })}
               />
 
-              <NativeSelect
-                data={["VAT", "GST"]}
-                defaultValue="VAT"
-                label="Tax Type"
-                withAsterisk
-                {...register("taxType")}
+              <Controller
+                name="taxType"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    data={["VAT", "GST"]}
+                    defaultValue="VAT"
+                    label="Tax Type"
+                    withAsterisk
+                    {...field}
+                  />
+                )}
               />
 
               <TextInput
@@ -150,7 +157,9 @@ const EditPurchase = () => {
                       rate * numbersReceived,
                       taxPercentage
                     );
-                    setValue("totalCost", totalCost, { shouldValidate: true });
+                    setValue("totalCost", totalCost, {
+                      shouldValidate: true,
+                    });
                   },
                 })}
               />
@@ -199,7 +208,7 @@ const EditPurchase = () => {
               />
 
               <Button loading={isLoading} type="submit">
-                Create
+                Update
               </Button>
             </Stack>
           </form>
