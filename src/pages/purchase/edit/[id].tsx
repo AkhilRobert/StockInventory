@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import {
   Button,
+  Center,
   Loader,
   Select,
   Stack,
@@ -40,20 +41,19 @@ const EditPurchase = () => {
     resolver: zodResolver(purchaseEditValidator),
   });
 
-  const { data, isLoading: purchaseQueryLoading } =
-    trpc.purchase.getByID.useQuery(
-      {
-        id: purchaseID,
+  const { isLoading: purchaseQueryLoading } = trpc.purchase.getByID.useQuery(
+    {
+      id: purchaseID,
+    },
+    {
+      enabled: !!purchaseID,
+      onSuccess: (data) => {
+        if (data) {
+          reset({ ...data, id: purchaseID });
+        }
       },
-      {
-        enabled: !!purchaseID,
-        onSuccess: () => {
-          if (data) {
-            reset({ ...data, id: purchaseID });
-          }
-        },
-      }
-    );
+    }
+  );
 
   const onSubmit = (input: InputType) => {
     createMutation(input, {
@@ -74,7 +74,9 @@ const EditPurchase = () => {
       <AppContainer>
         <Title>Update </Title>
         {purchaseQueryLoading ? (
-          <Loader />
+          <Center>
+            <Loader />
+          </Center>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack mt="md" spacing="md" maw="65%">
