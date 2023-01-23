@@ -106,6 +106,10 @@ const PurchaseID = () => {
               </Flex>
             </Flex>
             <Flex gap="xs">
+              <Text fw={500}>Total Cost : </Text>
+              <Text>{formatCurrency(data.totalCost)}</Text>
+            </Flex>
+            <Flex gap="xs">
               <Text fw={500}>HOD Authorized : </Text>
               <Text>
                 {data.hodAuthorized ? (

@@ -144,7 +144,7 @@ const CreatePurchase = () => {
               type="number"
               label="Total Cost"
               error={errors.totalCost?.message}
-              {...register("totalCost", { valueAsNumber: true })}
+              {...register("totalCost", { valueAsNumber: true, min: 0 })}
               step="any"
             />
 
