@@ -8,7 +8,7 @@ import {
 import { hodProcedure } from "../procedures/hod-procedure";
 import { staffProcedure } from "../procedures/staff-procedure";
 import { superintendentProcedure } from "../procedures/superintendent-procedure";
-import { router } from "../trpc";
+import { publicProcedure, router } from "../trpc";
 
 const createUniqueId = (
   purchase: Purchase,
@@ -70,13 +70,14 @@ export const purchaseRouter = router({
         id: z.number(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       await prisma.purchase.update({
         where: {
           id: input.id,
         },
         data: {
           superintendentAuthorized: true,
+          superintendentName: ctx.user.username,
         },
       });
 
@@ -91,7 +92,7 @@ export const purchaseRouter = router({
         id: z.number(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       await prisma.purchase.update({
         where: {
           id: input.id,
@@ -99,6 +100,7 @@ export const purchaseRouter = router({
         data: {
           hodAuthorized: true,
           superintendentAuthorized: true,
+          hodName: ctx.user.username,
         },
       });
 

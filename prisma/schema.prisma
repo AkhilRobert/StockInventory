@@ -43,6 +43,8 @@ model Purchase {
   fundingAgency            String
   hodAuthorized            Boolean  @default(false)
   superintendentAuthorized Boolean  @default(false)
+  superintendentName       String?
+  hodName                  String?
   issues                   Issue[]
 }
 

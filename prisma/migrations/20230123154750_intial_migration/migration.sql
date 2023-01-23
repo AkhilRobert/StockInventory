@@ -33,6 +33,8 @@ CREATE TABLE "Purchase" (
     "fundingAgency" TEXT NOT NULL,
     "hodAuthorized" BOOLEAN NOT NULL DEFAULT false,
     "superintendentAuthorized" BOOLEAN NOT NULL DEFAULT false,
+    "superintendentName" TEXT,
+    "hodName" TEXT,
 
     CONSTRAINT "Purchase_pkey" PRIMARY KEY ("id")
 );
