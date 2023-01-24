@@ -89,4 +89,5 @@ export const entryValidator = z.object({
     message: "HOD name cannot be empty",
   }),
   superintendentName: z.string().nullish(),
+  authorizedDate: z.date(),
 });

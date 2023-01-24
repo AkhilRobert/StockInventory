@@ -28,8 +28,9 @@ model User {
 }
 
 model Purchase {
-  id                       Int      @id @default(autoincrement())
+  id                       Int       @id @default(autoincrement())
   receiptDate              DateTime
+  authorizedDate           DateTime?
   description              String
   numbersReceived          Int
   rate                     Float
@@ -41,8 +42,8 @@ model Purchase {
   taxType                  TaxType
   taxPercentage            Float
   fundingAgency            String
-  hodAuthorized            Boolean  @default(false)
-  superintendentAuthorized Boolean  @default(false)
+  hodAuthorized            Boolean   @default(false)
+  superintendentAuthorized Boolean   @default(false)
   superintendentName       String?
   hodName                  String?
   issues                   Issue[]

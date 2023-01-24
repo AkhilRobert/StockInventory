@@ -1,4 +1,4 @@
-import { Issue, Purchase, Role } from "@prisma/client";
+import { Issue, Purchase } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "../../utils/prisma";
 import {
@@ -102,6 +102,7 @@ export const purchaseRouter = router({
           hodAuthorized: true,
           superintendentAuthorized: true,
           hodName: ctx.user.username,
+          authorizedDate: new Date(Date.now()),
         },
       });
 

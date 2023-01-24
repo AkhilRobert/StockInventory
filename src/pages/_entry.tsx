@@ -186,6 +186,19 @@ const Entry = () => {
           {...register("superintendentName")}
         />
 
+        <Controller
+          name="authorizedDate"
+          control={control}
+          render={({ field }) => (
+            <DatePicker
+              error={errors.authorizedDate?.message}
+              label="Authorized Date"
+              {...field}
+              withAsterisk
+            />
+          )}
+        />
+
         <Button loading={isLoading} type="submit">
           Create
         </Button>

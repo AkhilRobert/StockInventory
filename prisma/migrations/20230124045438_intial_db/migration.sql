@@ -20,6 +20,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Purchase" (
     "id" SERIAL NOT NULL,
     "receiptDate" TIMESTAMP(3) NOT NULL,
+    "authorizedDate" TIMESTAMP(3),
     "description" TEXT NOT NULL,
     "numbersReceived" INTEGER NOT NULL,
     "rate" DOUBLE PRECISION NOT NULL,
