@@ -1,7 +1,8 @@
-import type { Issue, Purchase } from "@prisma/client";
+import { Issue, Purchase, Role } from "@prisma/client";
 import { z } from "zod";
 import { prisma } from "../../utils/prisma";
 import {
+  entryValidator,
   purchaseCreateValidator,
   purchaseEditValidator,
 } from "../../validators/purchase-validator";
@@ -138,5 +139,30 @@ export const purchaseRouter = router({
         hodAuthorized: false,
       },
     });
+  }),
+
+  entry: publicProcedure.input(entryValidator).mutation(async ({ input }) => {
+    const { fundingAgency, ...others } = input;
+    const purchase = await prisma.purchase.create({
+      data: {
+        ...others,
+        fundingAgency,
+        hodAuthorized: true,
+        superintendentAuthorized: true,
+      },
+    });
+
+    const issues = new Array(purchase.numbersReceived).fill({}).map((_, i) => {
+      return {
+        purchaseId: purchase.id,
+        uniqueId: createUniqueId(purchase, i + 1, fundingAgency),
+      } as Issue;
+    });
+
+    await prisma.issue.createMany({ data: issues });
+
+    return {
+      id: purchase.id,
+    };
   }),
 });

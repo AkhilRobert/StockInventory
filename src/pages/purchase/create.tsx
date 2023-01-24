@@ -109,7 +109,6 @@ const CreatePurchase = () => {
               render={({ field }) => (
                 <Select
                   data={["VAT", "GST"]}
-                  defaultValue="VAT"
                   label="Tax Type"
                   withAsterisk
                   {...field}
