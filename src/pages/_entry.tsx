@@ -172,7 +172,13 @@ const Entry = () => {
           control={control}
           render={({ field }) => (
             <Select
-              data={["Sridhar"]}
+              data={[
+                "Dr.P.NARAYANASWAMY",
+                "Dr.G.V.UMA",
+                "Dr.A.KANNAN",
+                "Dr.SASWATI MUKHERJEE",
+                "Dr.S.SRIDHAR",
+              ]}
               label="HOD Name"
               withAsterisk
               {...field}
