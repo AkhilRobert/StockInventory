@@ -110,12 +110,16 @@ const PurchaseID = () => {
               <Text>{formatCurrency(data.totalCost)}</Text>
             </Flex>
             <Flex gap="xs">
-              <Text fw={500}>HOD Authorized : </Text>
+              <Text fw={500}>Superintendent Authorized : </Text>
               <Text>
-                {data.hodAuthorized ? (
+                {data.superintendentAuthorized ? (
                   <Flex align="center" gap="xs">
                     <BsCheckCircle color="green" />
-                    <Text>Authorized</Text>
+                    <Text>
+                      {!data.superintendentName
+                        ? "Authorized"
+                        : `Authorized by ${data.superintendentName}`}
+                    </Text>
                   </Flex>
                 ) : (
                   <Flex align="center" gap="xs">
@@ -126,12 +130,12 @@ const PurchaseID = () => {
               </Text>
             </Flex>
             <Flex gap="xs">
-              <Text fw={500}>Superintendent Authorized : </Text>
+              <Text fw={500}>HOD Authorized : </Text>
               <Text>
-                {data.superintendentAuthorized ? (
+                {data.hodAuthorized ? (
                   <Flex align="center" gap="xs">
                     <BsCheckCircle color="green" />
-                    <Text>Authorized</Text>
+                    <Text>Authorized by {data.hodName}</Text>
                   </Flex>
                 ) : (
                   <Flex align="center" gap="xs">

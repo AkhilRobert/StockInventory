@@ -22,6 +22,7 @@ const Entry = () => {
     setValue,
     formState: { errors },
     control,
+    reset,
   } = useForm<InputType>({
     resolver: zodResolver(entryValidator),
   });
@@ -35,6 +36,8 @@ const Entry = () => {
           icon: <GoCheck />,
           color: "green",
         });
+
+        reset();
       },
     });
   };
