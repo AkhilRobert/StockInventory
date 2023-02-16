@@ -90,6 +90,10 @@ const PurchaseID = () => {
               <Text>{data.supplierAddress}</Text>
             </Flex>
             <Flex gap="xs">
+              <Text fw={500}>Funding Agency : </Text>
+              <Text>{data.fundingAgency}</Text>
+            </Flex>
+            <Flex gap="xs">
               <Text fw={500}>Invoice Number : </Text>
               <Text>{data.invoiceNumber}</Text>
             </Flex>
