@@ -155,6 +155,13 @@ const CreatePurchase = () => {
             />
 
             <TextInput
+              label="Funding Agency ID"
+              error={errors.fundingAgencyId?.message}
+              withAsterisk
+              {...register("fundingAgencyId")}
+            />
+
+            <TextInput
               label="Supplier Name"
               error={errors.supplierName?.message}
               withAsterisk

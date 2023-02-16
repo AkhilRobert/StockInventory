@@ -28,11 +28,11 @@ export const purchaseRouter = router({
   create: staffProcedure
     .input(purchaseCreateValidator)
     .mutation(async ({ input }) => {
-      const { fundingAgency, ...others } = input;
+      const { fundingAgencyId, ...others } = input;
       const purchase = await prisma.purchase.create({
         data: {
           ...others,
-          fundingAgency,
+          fundingAgencyId,
         },
       });
 
@@ -41,7 +41,7 @@ export const purchaseRouter = router({
         .map((_, i) => {
           return {
             purchaseId: purchase.id,
-            uniqueId: createUniqueId(purchase, i + 1, fundingAgency),
+            uniqueId: createUniqueId(purchase, i + 1, fundingAgencyId),
           } as Issue;
         });
 
@@ -143,11 +143,11 @@ export const purchaseRouter = router({
   }),
 
   entry: publicProcedure.input(entryValidator).mutation(async ({ input }) => {
-    const { fundingAgency, ...others } = input;
+    const { fundingAgencyId, ...others } = input;
     const purchase = await prisma.purchase.create({
       data: {
         ...others,
-        fundingAgency,
+        fundingAgencyId,
         hodAuthorized: true,
         superintendentAuthorized: true,
       },
@@ -156,7 +156,7 @@ export const purchaseRouter = router({
     const issues = new Array(purchase.numbersReceived).fill({}).map((_, i) => {
       return {
         purchaseId: purchase.id,
-        uniqueId: createUniqueId(purchase, i + 1, fundingAgency),
+        uniqueId: createUniqueId(purchase, i + 1, fundingAgencyId),
       } as Issue;
     });
 

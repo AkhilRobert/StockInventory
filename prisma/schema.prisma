@@ -42,6 +42,7 @@ model Purchase {
   taxType                  TaxType
   taxPercentage            Float
   fundingAgency            String
+  fundingAgencyId          String
   hodAuthorized            Boolean   @default(false)
   superintendentAuthorized Boolean   @default(false)
   superintendentName       String?

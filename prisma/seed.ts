@@ -15,17 +15,17 @@ async function main() {
 
     prisma.user.create({
       data: {
-        username: "staff",
+        username: "office",
         role: Role.STAFF,
-        password: await bcrypt.hash("staff", 12),
+        password: await bcrypt.hash("office", 12),
       },
     }),
 
     prisma.user.create({
       data: {
-        username: "sup",
+        username: "superintendent",
         role: Role.SUPERINTENDENT,
-        password: await bcrypt.hash("sup", 12),
+        password: await bcrypt.hash("superintendent", 12),
       },
     }),
   ]);

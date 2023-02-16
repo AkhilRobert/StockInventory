@@ -32,6 +32,7 @@ CREATE TABLE "Purchase" (
     "taxType" "TaxType" NOT NULL,
     "taxPercentage" DOUBLE PRECISION NOT NULL,
     "fundingAgency" TEXT NOT NULL,
+    "fundingAgencyId" TEXT NOT NULL,
     "hodAuthorized" BOOLEAN NOT NULL DEFAULT false,
     "superintendentAuthorized" BOOLEAN NOT NULL DEFAULT false,
     "superintendentName" TEXT,

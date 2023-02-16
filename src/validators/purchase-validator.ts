@@ -28,6 +28,9 @@ export const purchaseCreateValidator = z.object({
   fundingAgency: z.string().min(1, {
     message: "Funding Agency cannot be empty",
   }),
+  fundingAgencyId: z.string().min(1, {
+    message: "Funding Agency Id cannot be empty",
+  }),
 });
 
 export const purchaseEditValidator = z.object({
@@ -55,6 +58,9 @@ export const purchaseEditValidator = z.object({
   invoiceNumber: z.string(),
   fundingAgency: z.string().min(1, {
     message: "Funding Agency cannot be empty",
+  }),
+  fundingAgencyId: z.string().min(1, {
+    message: "Funding Agency Id cannot be empty",
   }),
 });
 
@@ -84,6 +90,9 @@ export const entryValidator = z.object({
   }),
   fundingAgency: z.string().min(1, {
     message: "Funding Agency cannot be empty",
+  }),
+  fundingAgencyId: z.string().min(1, {
+    message: "Funding Agency Id cannot be empty",
   }),
   hodName: z.string().min(1, {
     message: "HOD name cannot be empty",

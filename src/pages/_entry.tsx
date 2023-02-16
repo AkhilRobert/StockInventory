@@ -44,7 +44,7 @@ const Entry = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack mt="md" spacing="md" maw="65%" m="auto">
+      <Stack my="lg" spacing="md" maw="65%" m="auto">
         <Textarea
           label="Description"
           withAsterisk
@@ -140,6 +140,13 @@ const Entry = () => {
           error={errors.fundingAgency?.message}
           withAsterisk
           {...register("fundingAgency")}
+        />
+
+        <TextInput
+          label="Funding Agency ID"
+          error={errors.fundingAgencyId?.message}
+          withAsterisk
+          {...register("fundingAgencyId")}
         />
 
         <TextInput
