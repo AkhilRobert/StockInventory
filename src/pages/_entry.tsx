@@ -82,14 +82,6 @@ const Entry = () => {
           })}
         />
 
-        <Textarea
-          label="Description"
-          withAsterisk
-          error={errors.description && errors.description.message}
-          autosize
-          {...register("description")}
-        />
-
         <Controller
           name="receiptDate"
           control={control}
@@ -103,6 +95,14 @@ const Entry = () => {
           )}
         />
 
+        <Textarea
+          label="Description"
+          withAsterisk
+          error={errors.description && errors.description.message}
+          autosize
+          {...register("description")}
+        />
+
         <TextInput
           type="number"
           error={errors.numbersReceived && errors.numbersReceived.message}
@@ -111,13 +111,6 @@ const Entry = () => {
           {...register("numbersReceived", {
             valueAsNumber: true,
           })}
-        />
-
-        <TextInput
-          error={errors.invoiceNumber && errors.invoiceNumber.message}
-          label="Invoice Number"
-          withAsterisk
-          {...register("invoiceNumber")}
         />
 
         <TextInput
@@ -175,18 +168,17 @@ const Entry = () => {
           step="any"
         />
 
-        <TextInput
-          label="Funding Agency"
-          error={errors.fundingAgency?.message}
-          withAsterisk
-          {...register("fundingAgency")}
-        />
-
-        <TextInput
-          label="Funding Agency ID"
-          error={errors.fundingAgencyId?.message}
-          withAsterisk
-          {...register("fundingAgencyId")}
+        <Controller
+          name="warrantyPeriod"
+          control={control}
+          render={({ field }) => (
+            <DatePicker
+              error={errors.warrantyPeriod?.message}
+              label="Warranty Period"
+              {...field}
+              withAsterisk
+            />
+          )}
         />
 
         <TextInput
@@ -204,17 +196,25 @@ const Entry = () => {
           {...register("supplierAddress")}
         />
 
-        <Controller
-          name="warrantyPeriod"
-          control={control}
-          render={({ field }) => (
-            <DatePicker
-              error={errors.warrantyPeriod?.message}
-              label="Warranty Period"
-              {...field}
-              withAsterisk
-            />
-          )}
+        <TextInput
+          error={errors.invoiceNumber && errors.invoiceNumber.message}
+          label="Invoice Number"
+          withAsterisk
+          {...register("invoiceNumber")}
+        />
+
+        <TextInput
+          label="Funding Agency"
+          error={errors.fundingAgency?.message}
+          withAsterisk
+          {...register("fundingAgency")}
+        />
+
+        <TextInput
+          label="Funding Agency ID"
+          error={errors.fundingAgencyId?.message}
+          withAsterisk
+          {...register("fundingAgencyId")}
         />
 
         <Controller
@@ -235,13 +235,6 @@ const Entry = () => {
             />
           )}
         />
-
-        <TextInput
-          label="Superintendent Name"
-          error={errors.superintendentName?.message}
-          {...register("superintendentName")}
-        />
-
         <Controller
           name="authorizedDate"
           control={control}
@@ -253,6 +246,12 @@ const Entry = () => {
               withAsterisk
             />
           )}
+        />
+
+        <TextInput
+          label="Superintendent Name"
+          error={errors.superintendentName?.message}
+          {...register("superintendentName")}
         />
 
         <Button loading={isLoading} type="submit">
