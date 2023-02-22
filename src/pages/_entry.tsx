@@ -36,8 +36,24 @@ const Entry = () => {
           icon: <GoCheck />,
           color: "green",
         });
-
-        reset();
+        reset({
+          description: null,
+          receiptDate: null,
+          numbersReceived: null,
+          invoiceNumber: null,
+          rate: null,
+          taxType: null,
+          hodName: null,
+          warrantyPeriod: null,
+          totalCost: null,
+          supplierName: null,
+          fundingAgency: null,
+          taxPercentage: null,
+          authorizedDate: null,
+          fundingAgencyId: null,
+          supplierAddress: null,
+          superintendentName: null,
+        });
       },
     });
   };
@@ -120,6 +136,7 @@ const Entry = () => {
                 "taxPercentage",
               ]);
 
+              if (!rate || !numbersReceived || !taxPercentage) return;
               const totalCost = calculateTax(
                 rate * numbersReceived,
                 taxPercentage
