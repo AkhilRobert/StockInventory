@@ -143,20 +143,36 @@ export const purchaseRouter = router({
   }),
 
   entry: publicProcedure.input(entryValidator).mutation(async ({ input }) => {
-    const { fundingAgencyId, ...others } = input;
+    const { fundingAgencyId, id, ...others } = input;
+    console.log(id);
     const purchase = await prisma.purchase.create({
       data: {
-        ...others,
-        fundingAgencyId,
+        id: id!,
+        fundingAgencyId: fundingAgencyId!,
         hodAuthorized: true,
         superintendentAuthorized: true,
+        description: others.description!,
+        fundingAgency: others.fundingAgency!,
+        invoiceNumber: others.invoiceNumber!,
+        numbersReceived: others.numbersReceived!,
+        rate: others.rate!,
+        receiptDate: others.receiptDate!,
+        supplierAddress: others.supplierAddress!,
+        supplierName: others.supplierName!,
+        taxPercentage: others.taxPercentage!,
+        taxType: others.taxType!,
+        totalCost: others.totalCost!,
+        warrantyPeriod: others.warrantyPeriod!,
+        authorizedDate: others.authorizedDate!,
+        hodName: others.hodName!,
+        superintendentName: others.superintendentName!,
       },
     });
 
     const issues = new Array(purchase.numbersReceived).fill({}).map((_, i) => {
       return {
         purchaseId: purchase.id,
-        uniqueId: createUniqueId(purchase, i + 1, fundingAgencyId),
+        uniqueId: createUniqueId(purchase, i + 1, fundingAgencyId!),
       } as Issue;
     });
 

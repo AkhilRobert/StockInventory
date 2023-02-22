@@ -4,6 +4,7 @@ import { DatePicker } from "@mantine/dates";
 import { showNotification } from "@mantine/notifications";
 import { Controller, useForm } from "react-hook-form";
 import { GoCheck } from "react-icons/go";
+import { VscError } from "react-icons/vsc";
 import { z } from "zod";
 import { calculateTax } from "../utils/tax";
 import { trpc } from "../utils/trpc";
@@ -37,6 +38,7 @@ const Entry = () => {
           color: "green",
         });
         reset({
+          id: null,
           description: null,
           receiptDate: null,
           numbersReceived: null,
@@ -55,12 +57,31 @@ const Entry = () => {
           superintendentName: null,
         });
       },
+      onError(error, _variables, _context) {
+        if (error.message.includes("(`id`)"))
+          showNotification({
+            title: "Error",
+            message: "Purchase with SI.NO already exists",
+            icon: <VscError />,
+            color: "red",
+          });
+      },
     });
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack my="lg" spacing="md" maw="65%" m="auto">
+        <TextInput
+          type="number"
+          error={errors.id?.message}
+          withAsterisk
+          label="SI.NO"
+          {...register("id", {
+            valueAsNumber: true,
+          })}
+        />
+
         <Textarea
           label="Description"
           withAsterisk

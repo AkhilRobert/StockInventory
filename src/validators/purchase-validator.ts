@@ -65,6 +65,7 @@ export const purchaseEditValidator = z.object({
 });
 
 export const entryValidator = z.object({
+  id: z.number().nullish(),
   receiptDate: z.date().nullish(),
   description: z
     .string()
