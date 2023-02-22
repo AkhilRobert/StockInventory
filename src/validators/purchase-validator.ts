@@ -65,7 +65,14 @@ export const purchaseEditValidator = z.object({
 });
 
 export const entryValidator = z.object({
-  id: z.number().nullish(),
+  id: z
+    .number({
+      invalid_type_error: "SI.NO cannot be empty",
+    })
+    .gt(0, {
+      message: "SI.NO should be greater than 0",
+    })
+    .nullish(),
   receiptDate: z.date().nullish(),
   description: z
     .string()
@@ -73,7 +80,14 @@ export const entryValidator = z.object({
       message: "Description cannot be empty",
     })
     .nullish(),
-  numbersReceived: z.number().gt(0).nullish(),
+  numbersReceived: z
+    .number({
+      invalid_type_error: "Numbers Received cannot be empty",
+    })
+    .gt(0, {
+      message: "Numbers Received should be greater than 0",
+    })
+    .nullish(),
   rate: z.number().gt(0).nullish(),
   totalCost: z
     .number({ invalid_type_error: "Total cost cannot be empty" })
