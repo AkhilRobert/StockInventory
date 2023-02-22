@@ -100,6 +100,7 @@ const CreatePurchase = () => {
               label="Rate"
               withAsterisk
               type="number"
+              step="any"
               {...register("rate", { valueAsNumber: true })}
             />
 
@@ -120,6 +121,7 @@ const CreatePurchase = () => {
               type="number"
               label="Tax Percentage"
               error={errors.taxPercentage?.message}
+              step="any"
               withAsterisk
               {...register("taxPercentage", {
                 valueAsNumber: true,

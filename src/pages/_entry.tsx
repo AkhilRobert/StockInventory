@@ -88,6 +88,7 @@ const Entry = () => {
           label="Rate"
           withAsterisk
           type="number"
+          step="any"
           {...register("rate", { valueAsNumber: true })}
         />
 
@@ -108,6 +109,7 @@ const Entry = () => {
           type="number"
           label="Tax Percentage"
           error={errors.taxPercentage?.message}
+          step="any"
           withAsterisk
           {...register("taxPercentage", {
             valueAsNumber: true,

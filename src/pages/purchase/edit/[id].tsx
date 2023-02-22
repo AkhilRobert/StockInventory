@@ -122,8 +122,9 @@ const EditPurchase = () => {
               <TextInput
                 error={errors.rate && errors.rate.message}
                 label="Rate"
-                withAsterisk
                 type="number"
+                step="any"
+                withAsterisk
                 {...register("rate", { valueAsNumber: true })}
               />
 
@@ -145,6 +146,7 @@ const EditPurchase = () => {
                 type="number"
                 label="Tax Percentage"
                 error={errors.taxPercentage?.message}
+                step="any"
                 withAsterisk
                 {...register("taxPercentage", {
                   valueAsNumber: true,
