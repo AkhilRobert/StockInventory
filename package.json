@@ -33,6 +33,7 @@
     "eslint-config-next": "13.1.1",
     "fast-jwt": "^2.0.2",
     "next": "13.1.1",
+    "nextjs-progressbar": "^0.0.16",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.41.2",
