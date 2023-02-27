@@ -22,7 +22,13 @@ const createUniqueId = (
 
 export const purchaseRouter = router({
   list: staffProcedure.query(() => {
-    return prisma.purchase.findMany();
+    return prisma.purchase.findMany({
+      orderBy: [
+        {
+          id: "asc",
+        },
+      ],
+    });
   }),
 
   create: staffProcedure
