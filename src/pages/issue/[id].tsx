@@ -23,6 +23,7 @@ import { z } from "zod";
 import { historyCreateValidtor } from "../../validators/history-validtor";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Role } from "@prisma/client";
+import { TiDelete } from "react-icons/ti";
 
 type InputType = z.infer<typeof historyCreateValidtor>;
 
@@ -30,7 +31,11 @@ const PurchaseID = () => {
   const router = useRouter();
   const [opened, setOpened] = useState<boolean>(false);
   const issueID = parseInt((router.query as any).id, 10);
-  const { isLoading, data } = trpc.issue.getByID.useQuery(
+  const {
+    isLoading,
+    data,
+    refetch: issueRefetch,
+  } = trpc.issue.getByID.useQuery(
     {
       id: issueID,
     },
@@ -40,6 +45,8 @@ const PurchaseID = () => {
   );
 
   const { data: meData } = trpc.auth.me.useQuery();
+
+  const condaminateMutation = trpc.issue.condaminateIssue.useMutation();
 
   const {
     handleSubmit,
@@ -88,6 +95,10 @@ const PurchaseID = () => {
               <Text>{data.purchaseId}</Text>
             </Flex>
             <Flex>
+              <Text fw={500}>Issue ID : </Text>
+              <Text>{data.uniqueId}</Text>
+            </Flex>
+            <Flex>
               <Text fw={500}>Description : </Text>
               <Text>{data.Purchase.description}</Text>
             </Flex>
@@ -103,16 +114,41 @@ const PurchaseID = () => {
           <Stack mih="100%" mt="md">
             <Flex align="center" justify="flex-end">
               <Title sx={{ flexGrow: 1 }}>History</Title>
-              {meData?.role !== Role.STAFF && (
-                <Box>
-                  <Button
-                    onClick={() => setOpened(true)}
-                    leftIcon={<AiOutlinePlus />}
-                    disabled={!data.Purchase.hodAuthorized}
-                  >
-                    Add
-                  </Button>
-                </Box>
+              {meData?.role !== Role.STAFF && !data.condaminated && (
+                <Flex gap={10} direction="column">
+                  <Box>
+                    <Button
+                      onClick={() => setOpened(true)}
+                      leftIcon={<AiOutlinePlus />}
+                      disabled={
+                        !data.Purchase.hodAuthorized || data.condaminated
+                      }
+                      w="100%"
+                    >
+                      Add
+                    </Button>
+                  </Box>
+                  <Box>
+                    <Button
+                      onClick={() => {
+                        condaminateMutation.mutate(
+                          { id: data.id },
+                          {
+                            onSuccess: () => {
+                              issueRefetch();
+                            },
+                          }
+                        );
+                      }}
+                      leftIcon={<TiDelete size={18} />}
+                      disabled={!data.Purchase.hodAuthorized}
+                      loading={condaminateMutation.isLoading}
+                      color="red"
+                    >
+                      Condaminate
+                    </Button>
+                  </Box>
+                </Flex>
               )}
             </Flex>
             {historyLoading || !historyData ? (

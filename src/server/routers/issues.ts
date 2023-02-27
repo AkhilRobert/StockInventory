@@ -47,4 +47,19 @@ export const issueRouter = router({
         },
       });
     }),
+
+  condaminateIssue: staffProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .mutation(({ input }) => {
+      return prisma.issue.update({
+        where: { id: input.id },
+        data: {
+          condaminated: true,
+        },
+      });
+    }),
 });
