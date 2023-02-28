@@ -39,5 +39,5 @@ export const getRemainingDays = (start: Date, end: Date): string => {
       "remaining"
     );
 
-  return "";
+  return "Expired";
 };
