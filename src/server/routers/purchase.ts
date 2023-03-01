@@ -60,8 +60,15 @@ export const purchaseRouter = router({
 
   update: superintendentProcedure
     .input(purchaseEditValidator)
-    .mutation(({ input }) => {
-      return prisma.purchase.update({
+    .mutation(async ({ input }) => {
+      // Deleting all the issues
+      await prisma.issue.deleteMany({
+        where: {
+          purchaseId: input.id,
+        },
+      });
+
+      const purchase = await prisma.purchase.update({
         where: {
           id: input.id,
         },
@@ -69,6 +76,20 @@ export const purchaseRouter = router({
           ...input,
         },
       });
+
+      // Recreating all the issuses
+      const issues = new Array(purchase.numbersReceived)
+        .fill({})
+        .map((_, i) => {
+          return {
+            purchaseId: purchase.id,
+            uniqueId: createUniqueId(purchase, i + 1, purchase.fundingAgencyId),
+          } as Issue;
+        });
+
+      await prisma.issue.createMany({ data: issues });
+
+      return purchase;
     }),
 
   superintendentAuthorize: superintendentProcedure

@@ -105,7 +105,6 @@ const EditPurchase = () => {
                 type="number"
                 error={errors.numbersReceived && errors.numbersReceived.message}
                 withAsterisk
-                disabled
                 label="Numbers Received"
                 {...register("numbersReceived", {
                   valueAsNumber: true,
