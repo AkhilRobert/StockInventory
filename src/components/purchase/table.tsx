@@ -39,14 +39,14 @@ const Option = ({ id }: { id: number }) => {
 };
 
 type Props = {
-  purchase: Purchase[];
+  purchase: Purchase[] | undefined;
   nothingMessage: string;
 };
 
 export const PurchaseTable = ({ purchase, nothingMessage }: Props) => {
-  if (purchase.length === 0) {
+  if (!purchase || purchase.length === 0) {
     return (
-      <Center>
+      <Center pt="md">
         <Text>{nothingMessage}</Text>
       </Center>
     );

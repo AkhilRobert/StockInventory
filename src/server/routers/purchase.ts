@@ -21,15 +21,58 @@ const createUniqueId = (
 };
 
 export const purchaseRouter = router({
-  list: staffProcedure.query(() => {
-    return prisma.purchase.findMany({
-      orderBy: [
-        {
-          id: "asc",
+  list: staffProcedure
+    .input(
+      z.object({
+        id: z.number().optional(),
+        text: z.string().optional(),
+      })
+    )
+    .query(({ input }) => {
+      // TODO: Remove the use of `any` type
+      const orQuery = input.text
+        ? ([
+          {
+            description: {
+              contains: input.text,
+              mode: "insensitive",
+            },
+          },
+          {
+            supplierName: {
+              contains: input.text,
+              mode: "insensitive",
+            },
+          },
+          {
+            supplierAddress: {
+              contains: input.text,
+              mode: "insensitive",
+            },
+          },
+          {
+            invoiceNumber: {
+              contains: input.text,
+              mode: "insensitive",
+            },
+          },
+        ] as any)
+        : undefined;
+
+      console.log(orQuery);
+
+      return prisma.purchase.findMany({
+        where: {
+          id: input.id,
+          OR: orQuery,
         },
-      ],
-    });
-  }),
+        orderBy: [
+          {
+            id: "asc",
+          },
+        ],
+      });
+    }),
 
   create: staffProcedure
     .input(purchaseCreateValidator)
@@ -169,9 +212,9 @@ export const purchaseRouter = router({
     });
   }),
 
+  // TODO: Delete this after entry has been finished
   entry: publicProcedure.input(entryValidator).mutation(async ({ input }) => {
     const { fundingAgencyId, id, ...others } = input;
-    console.log(id);
     const purchase = await prisma.purchase.create({
       data: {
         id: id!,

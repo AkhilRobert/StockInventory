@@ -1,29 +1,65 @@
-import { ScrollArea } from "@mantine/core";
+import { Flex, Button, Input, ScrollArea, Loader, Center } from "@mantine/core";
 import { AppContainer } from "../../components/app-container";
 import { AuthenticatedView } from "../../components/authenticatedv-view";
-import { OverlayBlur } from "../../components/overlay-loading";
 import { trpc } from "../../utils/trpc";
 import { PurchaseTable } from "../../components/purchase/table";
+import { useDebouncedState } from "@mantine/hooks";
+import { ChangeEvent, useState } from "react";
+import { isNumeric } from "../../utils/helpers";
 
 const ListPurchase = () => {
-  const { isLoading, data } = trpc.purchase.list.useQuery();
+  const [debouncedId, setDebouncedId] = useDebouncedState<number | undefined>(
+    undefined,
+    400
+  );
+  const [debouncedText, setDebouncedText] = useDebouncedState<
+    string | undefined
+  >(undefined, 400);
 
-  if (isLoading) return <OverlayBlur isLoading />;
+  const [id, setId] = useState<number | undefined>();
+  const [text, setText] = useState<string | undefined>();
 
-  if (!data || data.length === 0)
-    return (
-      <AuthenticatedView>
-        <AppContainer>
-          <div>No data available</div>
-        </AppContainer>
-      </AuthenticatedView>
-    );
+  const { isLoading, data } = trpc.purchase.list.useQuery({
+    id,
+    text,
+  });
 
+  const updateValue = () => {
+    setText(debouncedText);
+    setId(debouncedId);
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const currentValue = e.currentTarget.value;
+
+    if (isNumeric(currentValue)) {
+      setDebouncedText(undefined);
+      setDebouncedId(parseInt(currentValue));
+    } else {
+      setDebouncedId(undefined);
+      setDebouncedText(currentValue);
+    }
+  };
+
+  // TODO: wrap it in form so we can use form
   return (
     <AuthenticatedView>
       <AppContainer>
         <ScrollArea>
-          <PurchaseTable nothingMessage="No purchases found" purchase={data} />
+          <Flex gap="md">
+            <Input onChange={handleChange} style={{ flex: 1 }} />
+            <Button onClick={updateValue}>Search</Button>
+          </Flex>
+          {isLoading ? (
+            <Center mih="calc(100vh - 300px)">
+              <Loader />
+            </Center>
+          ) : (
+            <PurchaseTable
+              nothingMessage="No purchases found"
+              purchase={data}
+            />
+          )}
         </ScrollArea>
       </AppContainer>
     </AuthenticatedView>
