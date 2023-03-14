@@ -41,7 +41,7 @@ const ListPurchase = () => {
     }
   };
 
-  // TODO: wrap it in form so we can use form
+  // TODO: wrap it in form so we can use enter key to submit the form
   return (
     <AuthenticatedView>
       <AppContainer>

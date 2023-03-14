@@ -74,6 +74,10 @@ const PurchaseID = () => {
               <Text>{formatCurrency(data.rate)}</Text>
             </Flex>
             <Flex gap="xs">
+              <Text fw={500}>Date : </Text>
+              <Text>{dayjs(data.receiptDate).format("YYYY-MM-DD")}</Text>
+            </Flex>
+            <Flex gap="xs">
               <Text fw={500}>Tax Type : </Text>
               <Text>{data.taxType}</Text>
             </Flex>

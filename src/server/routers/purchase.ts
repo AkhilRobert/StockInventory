@@ -59,8 +59,6 @@ export const purchaseRouter = router({
         ] as any)
         : undefined;
 
-      console.log(orQuery);
-
       return prisma.purchase.findMany({
         where: {
           id: input.id,

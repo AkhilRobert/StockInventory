@@ -82,17 +82,13 @@ const Entry = () => {
           })}
         />
 
-        <Controller
-          name="receiptDate"
-          control={control}
-          render={({ field }) => (
-            <DatePicker
-              error={errors.receiptDate && errors.receiptDate.message}
-              label="Receipt Date"
-              {...field}
-              withAsterisk
-            />
-          )}
+        <TextInput
+          error={errors.receiptDate?.message}
+          withAsterisk
+          label="Receipt Date"
+          {...register("receiptDate", {
+            valueAsDate: true,
+          })}
         />
 
         <Textarea
@@ -168,17 +164,13 @@ const Entry = () => {
           step="any"
         />
 
-        <Controller
-          name="warrantyPeriod"
-          control={control}
-          render={({ field }) => (
-            <DatePicker
-              error={errors.warrantyPeriod?.message}
-              label="Warranty Period"
-              {...field}
-              withAsterisk
-            />
-          )}
+        <TextInput
+          error={errors.warrantyPeriod?.message}
+          withAsterisk
+          label="Warranty Period"
+          {...register("warrantyPeriod", {
+            valueAsDate: true,
+          })}
         />
 
         <TextInput
@@ -235,17 +227,14 @@ const Entry = () => {
             />
           )}
         />
-        <Controller
-          name="authorizedDate"
-          control={control}
-          render={({ field }) => (
-            <DatePicker
-              error={errors.authorizedDate?.message}
-              label="Authorized Date"
-              {...field}
-              withAsterisk
-            />
-          )}
+
+        <TextInput
+          error={errors.authorizedDate?.message}
+          withAsterisk
+          label="Authorized Date"
+          {...register("authorizedDate", {
+            valueAsDate: true,
+          })}
         />
 
         <TextInput
